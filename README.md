@@ -1,2 +1,2 @@
 # npipes
-Wrapper Library for Named Pipes Python
+Python based Named Pipes Wrapper for Windows
