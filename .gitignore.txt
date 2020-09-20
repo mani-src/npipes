@@ -1,0 +1,7 @@
+# Build Results
+[bB]uild/
+[dD]ist/
+*.whl
+*.egg
+*.egg-info/
+__pycache__/
