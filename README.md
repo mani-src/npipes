@@ -21,7 +21,7 @@ from npipes.ipc import IPC
 ipc = IPC()
 ipc.send_message('Hello')
 ```
-The above code, first creates a ```PIPE``` using ```win32pipe.CreateNamedPipe``` with a ```win32pipe.PIPE_WAIT``` and ```win32pipe.PIPE_ACCESS_DUPLEX``` flags set to wait for the client to connect and also open the ```PIPE``` in a duplex mode. And then sends the encoded data (encoding will be explained further below) to the client. 
+The above code, first creates a ```PIPE``` using ```win32pipe.CreateNamedPipe``` with a ```win32pipe.PIPE_WAIT``` and ```win32pipe.PIPE_ACCESS_DUPLEX``` flags set to wait for the client to connect and also open the ```PIPE``` in a duplex mode. It then waits for the client to connect to the ```PIPE``` and then sends the encoded data (encoding will be explained further below) to the client. 
 The ```send_message``` API also provides an option to generate and encode the 32-bit CRC code for the data being sent out, which can be used at the other end to validate. To enable CRC validation the call from the above code must be modified to
 ```Python
 ipc.send_message('Hello', crc=True)
