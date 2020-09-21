@@ -29,18 +29,35 @@ class Pipes(object):
     def pipe(self, pipe_name):
         self.__pipe = pipe_name
 
-    def open(self, pipe_wait=True):
+    def open(self, mode='read', pipe_wait=True):
         wait = win32pipe.PIPE_WAIT
         if pipe_wait:
             wait = win32pipe.PIPE_WAIT
         else:
             wait = win32pipe.PIPE_NOWAIT
-        self.__fifo = win32pipe.CreateNamedPipe(rf'\\.\pipe\{self.__pipe}', win32pipe.PIPE_ACCESS_DUPLEX,
-                                                win32pipe.PIPE_TYPE_MESSAGE | win32pipe.PIPE_READMODE_MESSAGE
-                                                | wait, 1, 65536, 65536, 0, None)
-        print('Waiting for the client to connect')
-        win32pipe.ConnectNamedPipe(self.__fifo, None)
-        print('Client connected')
+        create_file = False
+        try:
+            self.__fifo = win32pipe.CreateNamedPipe(rf'\\.\pipe\{self.__pipe}', win32pipe.PIPE_ACCESS_DUPLEX,
+                                                    win32pipe.PIPE_TYPE_MESSAGE | win32pipe.PIPE_READMODE_MESSAGE
+                                                    | wait, 1, 65536, 65536, 0, None)
+            print('Waiting for the client to connect')
+            win32pipe.ConnectNamedPipe(self.__fifo, None)
+            print('Client connected')
+        except pywintypes.error as err:
+            if mode == 'read':
+                if err.args[0] == 231:
+                    create_file = True
+                else:
+                    raise
+            else:
+                raise
+        if mode == 'read' and create_file:
+            self.__fifo = win32file.CreateFile(rf'\\.\pipe\{self.__pipe}',
+                                               win32file.GENERIC_READ | win32file.GENERIC_WRITE, 0, None,
+                                               win32file.OPEN_EXISTING, win32file.FILE_ATTRIBUTE_NORMAL, None)
+            result = win32pipe.SetNamedPipeHandleState(self.__fifo, win32pipe.PIPE_READMODE_MESSAGE, None, None)
+            if result == 0:
+                raise Exception('Could not connect to any PIPE')
         return True
 
     def close(self):
