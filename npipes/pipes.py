@@ -68,7 +68,7 @@ class Pipes(object):
     def write(self, msg):
         try:
             if not self.__fifo:
-                self.open()
+                self.open(mode='write')
             print(f'Sending message {msg} to the client')
             win32file.WriteFile(self.__fifo, msg)
             print(f'Message sent successfully')
