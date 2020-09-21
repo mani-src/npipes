@@ -5,7 +5,7 @@ Python based Named Pipes Wrapper for Windows
 This module provides an easy wrapper for the windows named pipes using ```pywin32```, which can be integrated with any of your projects dealing with the named pipes. This also includes an optional CRC32 validation for the data sent/received.  
 
 ## Usage
-The module exposes 2 important APIs from the class IPC
+The module exposes 2 important APIs from the class ```IPC```
 ```Python 
 send_message
 receive_message
@@ -32,7 +32,7 @@ from npipes.ipc import IPC
 ipc = IPC()
 ipc.receive_message()
 ```
-The above code again creates a ```PIPE``` in a Duplex mode with the Wait flag set. Please note that this module doesn't use the ```win32file.CreateFile``` API for the client to connect to the server end of the ```PIPE```. It instead relies on the Duplex communication mode of  ```win32pipe.CreateNamedPipe```. The above API returns a data string and the data can also be accessed using the property method ```message```. Similar to the ```send_message``` API call, one can also validate the 32-bit CRC code by enabling it from the below call
+The above code again creates a ```PIPE``` in a Duplex mode with the Wait flag set. Please note that this module (for the purpose of being modular and generic) first tries to connect to the server by opening the connection even on the client end, as the .NET API ```NamedPipeServerStream``` (which was one of the framewors I've tested my module with to validate interoperability) doesn't appear to be opening a connection to allow the client to connect and the above was introduced as a workaround for this. In case opening a connection to the PIPE fails with a ```PIPE Busy error: 231```, then the ```Pipes.open()``` method automatically tries using the API ```win32file.CreateFile``` to connect to the server end of the ```PIPE```. The ```ReceiveMessage``` API returns a decoded data string upon receiving a message from the server and the decoded data can also be accessed using the property method ```message```. Similar to the ```send_message``` API call, one can also validate the 32-bit CRC code by enabling it from the below call
 ```Python
 ipc.receive_message(crc = True)
 ```
