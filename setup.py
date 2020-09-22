@@ -10,7 +10,7 @@ setup(
     author='Manikanta Ambadipudi',
     author_email='ambadipudi.manikanta@gmail.com',
     url='https://github.com/mani-src/npipes/blob/master/README.md',
-    download_url='https://github.com/mani-src/npipes/archive/v1.0.tar.gz',
+    download_url='https://github.com/mani-src/npipes/archive/v1.0.1.tar.gz',
     install_requires=['pywin32'],
     packages=find_packages()
 )
