@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='npipes',
-    version='1.0.0',
+    version='1.0.1',
     license='GPL-3.0',
     description='Wrapper Library for Named Pipes',
     long_description='Provides a ready to use set of APIs to create and communicate via Named Pipes on Windows, '
