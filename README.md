@@ -5,7 +5,7 @@ Python based Named Pipes Wrapper for Windows
 This module provides an easy wrapper for the windows named pipes using ```pywin32```, which can be integrated with any of your projects dealing with the named pipes. This also includes an optional CRC32 validation for the data sent/received.
 
 ## Install
-Install the module using pip install npipes  
+Install the module using ```pip install npipes```
 
 ## Usage
 The module exposes 2 important APIs from the class ```IPC```
